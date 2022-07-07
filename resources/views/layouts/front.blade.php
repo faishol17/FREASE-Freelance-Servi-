@@ -11,7 +11,7 @@
         @include('includes.landing.style')
 
         @stack('after-style')
-
+ <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js') }}"></script>
     </head>
     <body class="antialiased">
         <div class="relative">

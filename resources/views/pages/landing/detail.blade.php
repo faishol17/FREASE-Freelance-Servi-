@@ -106,7 +106,7 @@
                                         @include('components.landing.rating')
                                     </div>
                                 </div> -->
-                            </div>
+                            </div> 
                             <h3 class="my-4 text-lg font-semibold">Biography</h3>
                             <div class="mt-4 mb-8 content-description">
                                 <p>
@@ -216,9 +216,13 @@
                             <a href="{{ route('booking.landing', $service->id) }}" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv-button rounded-xl">
                                 Beli Sekarang
                             </a>
-                            <a href="{{ route('hubungi.landing', $service->id) }}" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
+                            <!-- <a href="{{ route('hubungi.landing', $service->id) }}" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
+                                Hubungi
+                            </a> -->
+                            <a href="https://wa.me/{{$contact}}" target="_blank" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
                                 Hubungi
                             </a>
+
                             <br>
                             <br>
                         @endauth

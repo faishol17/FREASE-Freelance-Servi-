@@ -14,6 +14,7 @@ use App\Models\Tagline;
 use App\Models\AdvantageService;
 use App\Models\ThumbnailService;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class LandingController extends Controller
 {
@@ -112,9 +113,11 @@ class LandingController extends Controller
         $thumbnail = ThumbnailService::where('service_id', $id)->get();
         $advantage_user = AdvantageUser::where('service_id', $id)->get();
         $advantage_service = AdvantageService::where('service_id', $id)->get();
+        $contact=DB::table('detail_user')->select('contact_number')->where('users_id',$service->users_id)->first();
+$contact=@$contact->contact_number;
         $tagline = Tagline::where('service_id', $id)->get();
 
-        return view('pages.landing.detail', compact('service', 'thumbnail', 'advantage_user', 'advantage_service', 'tagline'));
+        return view('pages.landing.detail', compact('service', 'thumbnail', 'advantage_user', 'advantage_service', 'tagline','contact'));
     }
 
     public function booking($id)
@@ -142,12 +145,12 @@ class LandingController extends Controller
 
         return redirect()->route('detail.booking.landing', $order->id);
     }
-
+ 
     public function detail_booking($id)
     {
         $order = Order::where('id', $id)->first();
 
-        return view('pages.landing.booking', compact('order'));
+        return view('pages.landing.booking', compact('order','id'));
     }
     public function tentang()
     {

@@ -67,12 +67,19 @@
                     <image id="image1" width="500" height="500" xlink:href="https://randomuser.me/api/portraits/men/97.jpg"/>
                 </defs>
             </svg> -->
+@php
+$get_trnsaksi=DB::table('tb_transaksi')->where('id_order',$id)->whereIn('status',['capture','settlement'])->count();
+@endphp
+@if($get_trnsaksi>=1)
+  <div class="alert alert-success"> <h1 class="text-3xl font-bold mb-4">Terimakasi, Anda sudah melakukan Pembayaran</h1></div>
 
+@else
             <h1 class="text-3xl font-bold mb-4">Terima Kasih Silahkan Lanjutkan Pembayaran</h1>
 
             <!-- <p class="leading-8 text-serv-text mb-6"> To continue payment, please contact directly <br class="lg:block hidden">our Freelancer through WhatsApp</p> -->
 
-            <a href="http://wa.me/628123456789" class="bg-serv-button text-white text-md font-medium py-4 w-80 my-2 rounded-2xl text-center inline-block">Lanjutkan Pembayaran</a>
+            <a href="#"  id="prosesPayment" class="bg-serv-button text-white text-md font-medium py-4 w-80 my-2 rounded-2xl text-center inline-block">Lanjutkan Pembayaran</a>
+@endif
 
             <br>
 
@@ -82,5 +89,62 @@
 
         </div>
     </section>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-AGm-heRvURMrM0kK"></script>
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $('body').delegate('#prosesPayment','click',function(e)
+    {
+        e.preventDefault(); 
+        const Form_item   = new FormData();    
+        Form_item.append('_token', '{{csrf_token()}}'); 
+        Form_item.append('id_order', '{{$id}}'); 
 
+        fetch('{{route('prosesPayment')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
+        { 
+  
+            if(data.error)
+                {
+                alert('terjadi kesalahan');
+                return false;
+                }
+                snap.pay(data.key, {
+                // Optional
+                onSuccess: function(result){
+                 simpanmidtran(result);
+                  // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+
+                },
+                // Optional
+                onPending: function(result){
+                  simpanmidtran(result);
+                },
+                // Optional
+                onError: function(result){
+                   simpanmidtran(result);
+                }
+                });
+               
+
+        });      
+    }); 
+
+    function simpanmidtran(result)
+    {
+            
+            var result_from_midtrans = JSON.stringify(result); 
+            fetch('{{route('payment_midtrans')}}', { method: 'POST',body:result_from_midtrans}).then(res => res.json()).then(data => 
+            { 
+                window.location.reload();   
+            }).catch(error => {
+                alert('terjadi error');
+            }); 
+
+    }
+ 
+    
+
+
+});
+</script>
 @endsection
