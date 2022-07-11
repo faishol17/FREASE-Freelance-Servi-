@@ -87,7 +87,8 @@ $item2_details = array(
         'billing_address'   => $billing_address,
         'shipping_address'  => $shipping_address
         );
-        $enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echannel');
+        $enable_payments=array();
+        //$enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echannel');
             // Fill transaction details
         $transaction = array(
             'enabled_payments'          => $enable_payments,
