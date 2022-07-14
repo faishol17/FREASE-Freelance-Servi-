@@ -15,7 +15,7 @@ use App\Models\AdvantageService;
 use App\Models\ThumbnailService;
 use Illuminate\Support\Facades\Storage;
 use DB;
-
+use Carbon\Carbon;
 class LandingController extends Controller
 {
     /**
@@ -137,7 +137,7 @@ $contact=@$contact->contact_number;
         $order->service_id = $service->id;
         $order->file = NULL;
         $order->note = NULL;
-        $order->expired = Date('y-m-d', strtotime('+3 days'));
+        $order->expired = Carbon::now()->addDays(@$service->delivery_time);
         $order->order_status_id = 4;
         $order->save();
 

@@ -8,9 +8,9 @@
         @stack('after-style') 
     </head>
 <body class="antialiased">
-     <div class="flex h-screen bg-serv-services-bg" :class="{ 'overflow-hidden': isSideMenuOpen }">  
-            <div class="flex flex-col flex-1 w-full">
+     <div class="flex h-screen bg-serv-services-bg">  
 				@include('admin.sidebar_lg')
+            <div class="flex flex-col flex-1 w-full">
                 @yield('content')
             </div>
         </div>

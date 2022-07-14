@@ -119,18 +119,34 @@ $item2_details = array(
         $id_order=@explode('-', @$data['order_id'])[1];
       
         $get_order=DB::table('order')->where('id',$id_order)->first();
-        
-        DB::table('tb_transaksi')->insert(
-            [
-                'id_buyer'=>@$get_order->buyer_id,
-                'id_order'=>@$id_order,
-                'status'   =>@$data['transaction_status'],
-                'detail_report'=>serialize($data),
-                'created_at'=>Carbon::now(),
-                'created_at'=>Carbon::now() 
-            ]);
+        $get_trx=DB::table('tb_transaksi')->where('id_order',$id_order)->first();
 
-         print json_encode(array('error'=>false));
+
+        if($get_trx)
+        {
+                DB::table('tb_transaksi')->where('id_order',$id_order)->update(
+                [
+                    'id_buyer'      =>@$get_order->buyer_id,
+                    'id_order'      =>@$id_order,
+                    'status'        =>@$data['transaction_status'],
+                    'detail_report' =>serialize($data), 
+                    'updated_at'    =>Carbon::now() 
+                ]); 
+        }else
+        {
+
+            DB::table('tb_transaksi')->insert(
+                [
+                    'id_buyer'=>@$get_order->buyer_id,
+                    'id_order'=>@$id_order,
+                    'status'   =>@$data['transaction_status'],
+                    'detail_report'=>serialize($data),
+                    'created_at'=>Carbon::now(),
+                    'updated_at'=>Carbon::now() 
+                ]);
+
+        }
+             print json_encode(array('error'=>false));
 
 
           

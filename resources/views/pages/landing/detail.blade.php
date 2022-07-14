@@ -219,7 +219,7 @@
                             <!-- <a href="{{ route('hubungi.landing', $service->id) }}" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
                                 Hubungi
                             </a> -->
-                            <a href="https://wa.me/{{$contact}}" target="_blank" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
+                            <a href="https://wa.me/{{$contact?$contact:'xxx'}}" target="_blank" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
                                 Hubungi
                             </a>
 
