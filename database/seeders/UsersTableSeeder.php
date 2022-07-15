@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
                 'name'              => 'Admin',
                 'email'             => 'admin@mail.com',
                 'password'          => Hash::make('Admin@12345'),
-                'user_akses'        =>'user', 
+                'user_akses'        =>'admin', 
                 'remember_token'    => NULL,
                 'created_at'        => date('Y-m-d h:i:s'),
                 'updated_at'        => date('Y-m-d h:i:s'),

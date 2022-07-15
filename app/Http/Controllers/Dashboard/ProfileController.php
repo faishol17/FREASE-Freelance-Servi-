@@ -17,7 +17,7 @@ use File;
 use Auth;
 use Alert;
 
-use App\Models\User;
+use App\Models\User; 
 use App\Models\DetailUser;
 use App\Models\ExperienceUser;
 
@@ -36,7 +36,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = User::where('id', Auth::user()->id)->first();
-        $experience_user = ExperienceUser::where('detail_user_id', $user->detail_user->id)
+        $experience_user = ExperienceUser::where('detail_user_id', @$user->detail_user->id)
                                         ->orderBy('id', 'asc')
                                         ->get();
 

@@ -35,8 +35,8 @@
 
                                             <div class="flex items-center mt-1">
 
-                                                @if (auth()->user()->detail_user()->first()->photo != NULL)
-                                                    <img src="{{ url(Storage::url(auth()->user()->detail_user()->first()->photo)) }}" alt="photo profile" class="w-16 h-16 rounded-full">
+                                                @if (@Auth::user()->detail_user()->first()->photo)
+                                                    <img src="{{ url(Storage::url(@Auth::user()->detail_user()->first()->photo)) }}" alt="photo profile" class="w-16 h-16 rounded-full">
                                                 @else
                                                     <span class="inline-block w-16 h-16 overflow-hidden bg-gray-100 rounded-full">
                                                         <svg class="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -107,6 +107,42 @@
 
                                             @if ($errors->has('biography'))
                                                 <p class="text-red-500 mb-3 text-sm">{{ $errors->first('biography') }}</p>
+                                            @endif
+                                        </div>
+
+                                        <div class="lg:col-span-3 md:col-span-6">
+                                            <label  class="block mb-3 font-medium text-gray-700 text-md">Rekening</label>
+
+                                            <input placeholder="Nomor Rekening" type="text" name="no_rekening"  class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" value="{{ @$user->detail_user->no_rekening ?? '' }}">
+
+                                            @if ($errors->has('rekening'))
+                                                <p class="text-red-500 mb-3 text-sm">{{ $errors->first('rekening') }}</p>
+                                            @endif
+                                        </div>
+                                        <div class="lg:col-span-3 md:col-span-6">
+                                            <label  class="block mb-3 font-medium text-gray-700 text-md">Nama Pemilik</label>
+
+                                            <input placeholder="Nomor Rekening" type="text" name="nama_pemilik_rek"  class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" value="{{ $user->detail_user->nama_pemilik_rek ?? '' }}">
+
+                                            @if ($errors->has('nama_pemilik_rek'))
+                                                <p class="text-red-500 mb-3 text-sm">{{ $errors->first('nama_pemilik_rek') }}</p>
+                                            @endif
+                                        </div>
+                                         <div class="lg:col-span-3 md:col-span-6">
+                                            <label  class="block mb-3 font-medium text-gray-700 text-md">Bank</label>
+
+                                            <select name="bank" class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                                                @php
+                                                @$p=array('BNI','Mandiri','BCA','BRI','CIMBNIAGA','BPD','Danamon');
+                                                @endphp
+                                                <option value="">-Pilih-</option>
+                                                @foreach(@$p as $bnk)
+                                                <option value="{{ $bnk }}" {{ $bnk==@$user->detail_user->bank?'selected="selected"':'' }} >{{$bnk}}</option>
+                                                @endforeach
+                                               
+                                            </select>
+                                            @if ($errors->has('bank'))
+                                                <p class="text-red-500 mb-3 text-sm">{{ $errors->first('bank') }}</p>
                                             @endif
                                         </div>
 

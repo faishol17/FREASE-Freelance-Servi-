@@ -6,6 +6,7 @@
         @stack('before-style') 
         @include('includes.dashboard.style') 
         @stack('after-style') 
+         <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js') }}"></script>
     </head>
 <body class="antialiased">
      <div class="flex h-screen bg-serv-services-bg">  

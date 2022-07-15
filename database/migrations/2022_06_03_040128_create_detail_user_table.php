@@ -21,6 +21,10 @@ class CreateDetailUserTable extends Migration
             $table->string('role')->nullable();
             $table->string('contact_number')->nullable();
             $table->longText('biography')->nullable();
+            $table->string('no_rekening')->nullable();
+            $table->string('nama_pemilik_rek')->nullable();
+            $table->string('bank')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
