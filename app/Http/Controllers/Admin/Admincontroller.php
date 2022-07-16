@@ -20,12 +20,17 @@ class Admincontroller extends Controller
     		'buyer.name as nama_pembayar',
     		'freelancer.name as nama_frelance',
     		'service.title',
-    		'order_status.name as status');
+    		'order_status.name as status',
+    		'detail_user.no_rekening',
+    		'detail_user.nama_pemilik_rek',
+    		'detail_user.bank');
     	$dt->leftJoin('order','order.id','=','tb_transaksi.id_order');
     	$dt->leftJoin('users as buyer','buyer.id','=','order.buyer_id');
     	$dt->leftJoin('users as freelancer','freelancer.id','=','order.freelancer_id');
     	$dt->leftJoin('service','service.id','=','order.service_id');
     	$dt->leftJoin('order_status','order_status.id','=','order.order_status_id');
+    	$dt->leftJoin('detail_user','detail_user.id','=','order.freelancer_id');
+
     	//$dt->leftJoin('tb_konfirmasi','b_konfirmasi.id_order','=','order.id');
 
 
@@ -39,7 +44,11 @@ class Admincontroller extends Controller
 			$status_konfirm=DB::table('tb_konfirmasi')->select('id')->where('id_order',$key->id_order)->first();
 			if($status_konfirm)
 			{
-				$tb_transaksi[$i]->detail_report['status_konfirm']=$status_konfirm;
+				$tb_transaksi[$i]->detail_report['status_konfirm'] 	=$status_konfirm;
+				$tb_transaksi[$i]->detail_report['no_rekening'] 	=@$key->no_rekening;
+				$tb_transaksi[$i]->detail_report['nama_pemilik_rek']=@$key->nama_pemilik_rek;
+				$tb_transaksi[$i]->detail_report['bank'] 			=@$key->bank;
+
 			}
 	    	$i++;
     	}

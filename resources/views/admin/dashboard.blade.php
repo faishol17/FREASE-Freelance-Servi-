@@ -9,6 +9,9 @@
 .w-full-color td {
   padding: 5px 8px;
 }
+tr img {
+  margin: auto;
+}
 </style>
 
 <main class="h-full overflow-y-auto">
@@ -73,7 +76,7 @@
                 </main>
             </div>
         </section>
- </main>
+ </main> 
  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-md">
@@ -107,6 +110,24 @@
   </div>
 </div>
 
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Data Rekening</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="rekeningList">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
  <script type="text/javascript">
      $(document).ready(function()
      {
@@ -144,7 +165,7 @@
                         <table class="w-full-color" >`+td_+`
                             <tr>
                                 <td colspan="`+o+`">
-                                    `+statsu_kon+`
+                                    `+statsu_kon+` <a href="#" class="cekRekening btn btn-primary btn-sm">Cek Rekening</a>
                                 </td>
                             </tr>
                         </table>
@@ -172,10 +193,75 @@
              tis_.find('button[type="submit"]').html('Kirim'); 
                 $('#exampleModal').modal('hide'); 
                     window.btn_k.closest('td').html('<i>Sudah melakukan Konfirmasi</i>');
-            });
-             
-            
+            });  
         }); 
+            $('body').delegate('.cekRekening','click',function(e)
+            {
+                e.preventDefault();
+                $('#exampleModal2').modal('show'); 
+            }); 
+             $('#exampleModal2').on('shown.bs.modal',function(e)
+                {
+                    e.preventDefault();
+                    
+
+
+                    var dt_id=window.id;
+                    var no_rekening         =window['detail_'+dt_id]['no_rekening'];
+                    var nama_pemilik_rek    =window['detail_'+dt_id]['nama_pemilik_rek'];
+                    var bank                =window['detail_'+dt_id]['bank'];
+                    var image_bnk='';
+                    switch(bank)
+                    {
+                        case 'BNI':
+                        image_bnk=`<img src="{{asset('assets')}}/bni.png" width="100px">`;
+                        break;
+                        case 'Mandiri':
+                        image_bnk=`<img src="{{asset('assets')}}/mandiri.png" width="100px">`;
+
+                        break;
+                        case 'BCA':
+                        image_bnk=`<img src="{{asset('assets')}}/bca.png" width="100px">`;
+
+                        break;
+                        case 'BRI':
+                        image_bnk=`<img src="{{asset('assets')}}/bri.png" width="100px">`;
+
+                        break;
+                        case 'CIMBNIAGA':
+                        image_bnk=`<img src="{{asset('assets')}}/cimbniaga.png" width="100px">`;
+
+                        break;
+                         
+                        case 'Danamon':
+                        image_bnk=`<img src="{{asset('assets')}}/danamon.png" width="100px">`;
+
+                        break;
+                    }
+                    var lis_tb=`<table class="w-full" aria-label="Table">
+                                <tr >
+                                    <td>Nama Bank</td> 
+                                    <td>:</td> 
+                                    <td>`+bank+`</td>  
+                                </tr>
+                                <tr>
+                                    <td>No Rekening</td> 
+                                    <td>:</td> 
+                                    <td>`+no_rekening+`</td>   
+                                </tr>
+                                <tr>
+                                    <td>Nama Pemilik Rekening</td> 
+                                    <td>:</td> 
+                                    <td>`+nama_pemilik_rek+`</td>                                 
+                                </tr>
+
+                                <tr> 
+                                <td colspan="3" style="text-align:center;" >`+image_bnk+`</td> 
+                                </tr></table> 
+                                `;
+
+                     $('#rekeningList').html(lis_tb);
+                });
      });
  </script>
 @endsection
