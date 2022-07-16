@@ -12,6 +12,10 @@
 tr img {
   margin: auto;
 }
+tr i {
+  font-size: 14px;
+  color: #11db60;
+}
 </style>
 
 <main class="h-full overflow-y-auto">
@@ -155,8 +159,13 @@ tr img {
             var o=0;
             for(let lt of Object.keys(dt_midtrans))
             {
-               td_+=`<tr class="border-b border-b-gray-600"><td>`+lt+`</td><td>`+dt_midtrans[lt]+`</td></tr>`;
+                console.log(lt);
+                if(lt!='no_rekening'&&lt!='nama_pemilik_rek'&&lt!='bank')
+                {
+
+                     td_+=`<tr class="border-b border-b-gray-600"><td>`+lt+`</td><td>`+dt_midtrans[lt]+`</td></tr>`;
               o++;  
+                }
             }
             var statsu_kon=dt_midtrans['status_konfirm']==undefined?`<a class="konfirmmodal px-4 py-2 mt-1 mr-2 text-center text-white rounded-xl bg-serv-email">Konfirmasi ke Freelancer</a>`:`<i>Sudah melakukan Konfirmasi</i>`;
             $(this).closest('tbody').append(`
@@ -198,6 +207,7 @@ tr img {
             $('body').delegate('.cekRekening','click',function(e)
             {
                 e.preventDefault();
+
                 $('#exampleModal2').modal('show'); 
             }); 
              $('#exampleModal2').on('shown.bs.modal',function(e)
@@ -207,9 +217,9 @@ tr img {
 
 
                     var dt_id=window.id;
-                    var no_rekening         =window['detail_'+dt_id]['no_rekening'];
-                    var nama_pemilik_rek    =window['detail_'+dt_id]['nama_pemilik_rek'];
-                    var bank                =window['detail_'+dt_id]['bank'];
+                    var no_rekening         =window['detail_'+dt_id]['no_rekening']?window['detail_'+dt_id]['no_rekening']:'-';
+                    var nama_pemilik_rek    =window['detail_'+dt_id]['nama_pemilik_rek']?window['detail_'+dt_id]['nama_pemilik_rek']:'-';
+                    var bank                =window['detail_'+dt_id]['bank']?window['detail_'+dt_id]['bank']:'-';
                     var image_bnk='';
                     switch(bank)
                     {
