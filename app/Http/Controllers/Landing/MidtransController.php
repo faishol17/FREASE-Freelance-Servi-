@@ -40,7 +40,7 @@ class MidtransController extends Controller
         $amount                 =@$tb_service->price?@$tb_service->price:0;
         $gross_amount           =$amount+$biayatrx;
         $transaction_details    = array(
-        'order_id'          => Carbon::now()->format('ymd').'-'.@$torder->id,
+        'order_id'          => Carbon::now()->format('ymdhis').'-'.@$torder->id,
         'gross_amount'      => $gross_amount, // no decimal allowed for creditcard
         );
         $item1_details = array(

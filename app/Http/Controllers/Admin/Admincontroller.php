@@ -26,16 +26,22 @@ class Admincontroller extends Controller
     	$dt->leftJoin('users as freelancer','freelancer.id','=','order.freelancer_id');
     	$dt->leftJoin('service','service.id','=','order.service_id');
     	$dt->leftJoin('order_status','order_status.id','=','order.order_status_id');
+    	//$dt->leftJoin('tb_konfirmasi','b_konfirmasi.id_order','=','order.id');
+
 
     	$dt->orderBy('tb_transaksi.id','DESC'); 
     	$tb_transaksi=$dt->paginate(20);
     	$i=0;
     	foreach ($tb_transaksi as $key) 
     	{
-    	$tb_transaksi[$i]->created_at=	$this->keIndonesiaa($key->created_at);
-    	$tb_transaksi[$i]->detail_report=@unserialize(@$key->detail_report)?@unserialize(@$key->detail_report):array();
-
-    	$i++;
+	    	$tb_transaksi[$i]->created_at 			=$this->keIndonesiaa($key->created_at);
+	    	$tb_transaksi[$i]->detail_report		=@unserialize(@$key->detail_report)?@unserialize(@$key->detail_report):array();
+			$status_konfirm=DB::table('tb_konfirmasi')->select('id')->where('id_order',$key->id_order)->first();
+			if($status_konfirm)
+			{
+				$tb_transaksi[$i]->detail_report['status_konfirm']=$status_konfirm;
+			}
+	    	$i++;
     	}
 
     	//dd($tb_transaksi);
@@ -77,5 +83,30 @@ public static function keIndonesiaa($Carbon,$date=false,$time=false)
 
 		
 	}
+	public static function simpankonfirmasi(Request $req)
+	{
+
+
+
+		$data['tgl_transfer']	= Carbon::parse($req->input('tgl_konfirmasi'))->format('Y-m-d');
+		$data['note'] 			= $req->input('note');
+		$data['id_order']       = $req->input('id_order');
+
+		
+		$file                   = $req->file('unggah');
+		$real_name              = $req->input('id_order').str_replace(' ', '_', $file->getClientOriginalName()); 
+        
+        $data['unggah'] 		=$real_name;
+		$file->move(public_path('assets'), $data['unggah']);
+		 $data['created_at']=Carbon::now();
+		 $data['updated_at']=Carbon::now(); 
+		 DB::table('tb_konfirmasi')->insert($data);
+        print json_encode(array('error' =>false));
+
+
+
+
+	}
+	
       
 }

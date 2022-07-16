@@ -32,11 +32,18 @@
                                     <th class="py-4" scope="">Detail Service</th>
                                     <th class="py-4" scope="">Dedline</th>
                                     <th class="py-4" scope="">Action</th>
+                                    <th class="py-4" scope="">Konfirmasi</th>
+
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-
+                                @php
+                                $data_komfirm=array();
+                                @endphp
                                 @forelse ($orders as $key => $order)
+                                @php
+                                    $data_komfirm[$order->id]=DB::table('tb_konfirmasi')->where('id_order',@$order->id)->first();
+                                @endphp
                                     <tr class="text-gray-700 border-b">
                                         <td class="px-1 py-5 text-sm w-2/8">
                                             <div class="flex items-center text-sm">
@@ -122,6 +129,14 @@
                                             @else
                                                 {{ 'N/A' }}
                                             @endif
+                                            
+                                        </td>
+                                        <td>
+                                            @if(@$data_komfirm[$order->id])
+                                            <a class="cekkonfirm btn btn-success" href="#" data-id="{{@$order->id}}" >Sudah Bayar</a>
+                                            @else
+                                            <a class="btn btn-warning" href="#" data-id="{{@$order->id}}" >Belum ada Pembayaran</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
@@ -135,5 +150,58 @@
             </div>
         </section>
     </main>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="simpanKonfirmasi" name="simpanKonfirmasi">
+            <div class="form-group">
+                <label>Tanggal Transfer</label>
+                 <div class="form-control" id="TanggalTransfer"></div>
+            </div>
+            <div class="form-group">
+                <label>Unggah Bukti</label> 
+                <div id="imagekon"></div>
+            </div>
+            <div class="form-group">
+                <label>Note</label>
+                <p id="notekon"></p>
+            </div>
+            
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        var dta_kon={!!json_encode($data_komfirm)!!}
+        $('body').delegate('.cekkonfirm','click',function(e)
+        {
+            e.preventDefault();
+            var id_order=$(this).data('id');
+            window.data_konfirm=dta_kon[id_order];
+            $('#exampleModal').modal('show');
+
+        });
+        $('#exampleModal').on('shown.bs.modal',function(e)
+        {
+            e.preventDefault();
+            $('#TanggalTransfer').html(window.data_konfirm.tgl_transfer);
+            $('#imagekon').html('<img src="{{asset('assets')}}/'+window.data_konfirm.unggah+'" width="100%">');
+            $('#notekon').html(window.data_konfirm.note); 
+        });
+    })
+</script>
 @endsection

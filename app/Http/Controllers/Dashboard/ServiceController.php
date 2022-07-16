@@ -102,7 +102,7 @@ class ServiceController extends Controller
         }
 
         // add to tagline
-        if(count($data['tagline'])){
+        if(@$data['tagline']){
             foreach ($data['tagline'] as $key => $value) {
                 $tagline = new Tagline;
                 $tagline->service_id = $service->id;
@@ -190,15 +190,15 @@ class ServiceController extends Controller
             }
         }
 
-        // update to tagline
-        foreach($data['taglines'] as $key => $value){
-            $tagline = Tagline::find($key);
-            $tagline->tagline = $value;
-            $tagline->save();
-        }
 
         //add new tagline
         if(isset($data['tagline'])){
+            // update to tagline
+            foreach(@$data['taglines'] as $key => $value){
+                $tagline = Tagline::find($key);
+                $tagline->tagline = $value;
+                $tagline->save();
+            }
             foreach($data['tagline'] as $key => $value){
                 $tagline = New Tagline;
                 $tagline->service_id = $service['id'];
@@ -251,6 +251,12 @@ class ServiceController extends Controller
 
         toast()->success('Update Data Berhasil');
         return redirect()->route('member.service.index');
+    }
+     public function prosesHapus(Request $request)
+    {
+        $delete = Service::find($request->input('id_service'));
+        $delete->delete();
+        print json_encode(array('error'=>false));
     }
 
     /**

@@ -3,6 +3,7 @@
     <head> 
         @include('includes.dashboard.meta') 
         <title>@yield('title') | FREASE</title> 
+
         @stack('before-style') 
         @include('includes.dashboard.style') 
         @stack('after-style') 
@@ -19,4 +20,4 @@
         @include('includes.dashboard.script')
         @stack('after-script')
     </body>
-</html>
+</html> 

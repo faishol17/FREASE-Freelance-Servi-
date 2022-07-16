@@ -43,6 +43,8 @@ Route::resource('/', LandingController::class);
 route::group(['prefix' => 'admin','middleware' => ['auth', 'Authadmin:admin']], function () 
 {
     Route::get('/', [Admincontroller::class, 'index'])->name('admin');
+    Route::post('/simpan-konfirmasi', [Admincontroller::class, 'simpankonfirmasi']);
+
 
 });
 Route::group(['prefix' => 'member', 'as' => 'member.', 'middleware' => ['auth:sanctum', 'verified']], function() {
@@ -52,6 +54,9 @@ Route::group(['prefix' => 'member', 'as' => 'member.', 'middleware' => ['auth:sa
 
     // service
     Route::resource('service', ServiceController::class);
+    Route::post('proses-Hapus', [ServiceController::class,'prosesHapus'])->name('prosesHapus');
+
+    
 
     // request
     Route::get('approve_request/{id}', [RequestController::class, 'approve'])->name('approve.request');

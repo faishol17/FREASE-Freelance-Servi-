@@ -79,7 +79,7 @@
                                                 <a href="{{ route('member.service.edit', $service['id']) }}" class="text-white rounded-xl " style="display none">
                                                         E 
                                                 </a>
-                                                <a href="#" class="px-4 py-2 mt-2 text-white rounded-xl bg-serv-button">
+                                                <a href="#" data-id="{{@$service['id']}}" class="px-4 py-2 mt-2 text-white rounded-xl bg-serv-button Hapus_service">
                                                         Hapus 
                                                 </a>
                                             </td>
@@ -120,5 +120,24 @@
         </div>
     @endif
 
-
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('body').delegate('.Hapus_service','click',function(e)
+        {
+            e.preventDefault();
+            if(!confirm('Anda akan menghapus data ini?'))
+            {
+                return false;
+            }
+            const Form_item   = new FormData();    
+            Form_item.append('_token', '{{csrf_token()}}'); 
+            Form_item.append('id_service', $(this).data('id'));  
+            fetch('{{route('member.prosesHapus')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
+            { 
+                window.location.reload();
+            });
+        });
+    })
+</script>
 @endsection
