@@ -50,6 +50,9 @@ class Admincontroller extends Controller
 				$tb_transaksi[$i]->detail_report['no_rekening'] 	=@$key->no_rekening;
 				$tb_transaksi[$i]->detail_report['nama_pemilik_rek']=@$key->nama_pemilik_rek;
 				$tb_transaksi[$i]->detail_report['bank'] 			=@$key->bank;
+				$tb_transaksi[$i]->detail_report['gross_amount'] 	='Rp '.number_format($tb_transaksi[$i]->detail_report['gross_amount'],0,'.','.').',-';
+
+				
 	    	$i++;
     	}
 

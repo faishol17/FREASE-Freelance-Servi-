@@ -61,20 +61,21 @@ tr i {
                                 <tbody>
                                 	<tr>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->title}}</td>
-                                		<td class="px-1 py-5 text-sm w-2/8">{{@$key->nama_pembayar}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->nama_frelance}}</td>
+                                		<td class="px-1 py-5 text-sm w-2/8">{{@$key->nama_pembayar}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['gross_amount']}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['transaction_status']}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->status}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->created_at}}</td>  
                                 		<td class="px-1 py-5 text-sm w-2/8">
                                 			
-                                			<a href="#" data-id="{{$key->id}}" class="px-4 py-2 mt-1 mr-2 text-center text-white rounded-xl bg-serv-email  detail_trx">Details</a>
+                                			<a href="#" data-id="{{$key->id}}" data-name="{{@$key->nama_frelance}}" class="px-4 py-2 mt-1 mr-2 text-center text-white rounded-xl bg-serv-email  detail_trx">Details</a>
                                 		</td>      
                                 	</tr>
                                 </tbody>
                                 	@endforeach
                             </table>
+                            {{$tb_transaksi->links()}}
                         </section>
                     </div>
                 </main>
@@ -118,7 +119,7 @@ tr i {
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-md">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Data Rekening</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Data Rekening Frelancer</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -147,7 +148,10 @@ tr i {
             e.preventDefault();
             $(this).toggleClass('show')
             var dt_id=  $(this).data('id');
+
             window.id=dt_id;
+            window.name_free=  $(this).data('name');
+
             $('.dtail_mid').remove();
             if($(this).hasClass('show')==false)
             {
@@ -249,6 +253,11 @@ tr i {
                         break;
                     }
                     var lis_tb=`<table class="w-full" aria-label="Table">
+                                <tr >
+                                    <td>Nama Freelancer</td> 
+                                    <td>:</td> 
+                                    <td>`+window.name_free+`</td>  
+                                </tr>
                                 <tr >
                                     <td>Nama Bank</td> 
                                     <td>:</td> 
