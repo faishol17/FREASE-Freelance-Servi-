@@ -45,11 +45,11 @@ class Admincontroller extends Controller
 			if($status_konfirm)
 			{
 				$tb_transaksi[$i]->detail_report['status_konfirm'] 	=$status_konfirm;
+
+			}
 				$tb_transaksi[$i]->detail_report['no_rekening'] 	=@$key->no_rekening;
 				$tb_transaksi[$i]->detail_report['nama_pemilik_rek']=@$key->nama_pemilik_rek;
 				$tb_transaksi[$i]->detail_report['bank'] 			=@$key->bank;
-
-			}
 	    	$i++;
     	}
 
